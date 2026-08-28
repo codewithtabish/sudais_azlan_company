@@ -7,11 +7,6 @@ datasource db {
   provider = "postgresql"
 }
 
-enum UserRole {
-  USER
-  ADMIN
-}
-
 model User {
   id        String    @id @default(cuid())
   clerkId   String    @unique
@@ -20,121 +15,55 @@ model User {
   email     String?
   role      UserRole  @default(USER)
   lastSeen  DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  projects Project[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
 
   @@index([clerkId])
   @@index([role])
 }
 
 model Category {
-  id   String @id @default(cuid())
-  name String
-  slug String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  projects Project[]
+  id        String    @id @default(cuid())
+  name      String
+  slug      String    @unique
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  projects  Project[]
 
   @@index([name])
 }
 
 model Project {
-  id String @id @default(cuid())
-
-  // ============================================================
-  // OWNERSHIP
-  // ============================================================
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  // ============================================================
-  // CATEGORY
-  // ============================================================
-
-  categoryId String
-  category   Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
-
-  // ============================================================
-  // BASIC PROJECT INFORMATION
-  // ============================================================
-
-  title String
-  slug  String
-
+  id               String    @id @default(cuid())
+  userId           String
+  categoryId       String
+  title            String
+  slug             String
   shortDescription String?
   description      String?
-
-  // ============================================================
-  // PROJECT MEDIA
-  // ============================================================
-
-  bannerImage String?
-  images      String[]
-
-  // ============================================================
-  // PROJECT LINKS
-  // ============================================================
-
-  liveUrl      String?
-  githubUrl    String?
-  demoUrl      String?
-  caseStudyUrl String?
-
-  // ============================================================
-  // TECHNOLOGIES
-  // ============================================================
-
-  technologies String[]
-
-  // ============================================================
-  // FLEXIBLE PROJECT CONTENT
-  // ============================================================
-
-  content Json?
-
-  // ============================================================
-  // PORTFOLIO CONTROLS
-  // ============================================================
-
-  featured  Boolean @default(false)
-  published Boolean @default(false)
-  sortOrder Int     @default(0)
-
-  // ============================================================
-  // PROJECT TIMELINE
-  // ============================================================
-
-  startedAt   DateTime?
-  completedAt DateTime?
-
-  // ============================================================
-  // SEO
-  // ============================================================
-
-  metaTitle       String?
-  metaDescription String?
-  canonicalUrl    String?
-  ogImageUrl      String?
-
-  // Optional SEO keywords
-  keywords String[]
-
-  // ============================================================
-  // TIMESTAMPS
-  // ============================================================
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  // ============================================================
-  // INDEXES
-  // ============================================================
+  bannerImage      String?
+  images           String[]
+  liveUrl          String?
+  githubUrl        String?
+  demoUrl          String?
+  caseStudyUrl     String?
+  technologies     String[]
+  content          Json?
+  featured         Boolean   @default(false)
+  published        Boolean   @default(false)
+  sortOrder        Int       @default(0)
+  startedAt        DateTime?
+  completedAt      DateTime?
+  metaTitle        String?
+  metaDescription  String?
+  canonicalUrl     String?
+  ogImageUrl       String?
+  keywords         String[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  category         Category  @relation(fields: [categoryId], references: [id])
+  user             User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([userId, slug])
   @@index([userId])
@@ -142,4 +71,9 @@ model Project {
   @@index([published])
   @@index([featured])
   @@index([sortOrder])
+}
+
+enum UserRole {
+  USER
+  ADMIN
 }

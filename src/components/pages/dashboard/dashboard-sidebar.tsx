@@ -12,6 +12,7 @@ import {
   LayoutDashboard,
   PanelLeftClose,
   PanelLeftOpen,
+  PrinterIcon,
   Settings,
   Tags,
 } from "lucide-react";
@@ -52,6 +53,11 @@ const NAV_ITEMS: NavItem[] = [
     label: "Projects",
     href: "/dashboard/projects",
     icon: FolderKanban,
+  },
+  {
+    label: "Projects Category",
+    href: "/dashboard/project-categories",
+    icon: PrinterIcon,
   },
   {
     label: "Blogs",

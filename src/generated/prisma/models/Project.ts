@@ -372,8 +372,8 @@ export type ProjectWhereInput = {
   keywords?: Prisma.StringNullableListFilter<"Project">;
   createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string;
   updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string;
-  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
 };
 
 export type ProjectOrderByWithRelationInput = {
@@ -404,8 +404,8 @@ export type ProjectOrderByWithRelationInput = {
   keywords?: Prisma.SortOrder;
   createdAt?: Prisma.SortOrder;
   updatedAt?: Prisma.SortOrder;
-  user?: Prisma.UserOrderByWithRelationInput;
   category?: Prisma.CategoryOrderByWithRelationInput;
+  user?: Prisma.UserOrderByWithRelationInput;
 };
 
 export type ProjectWhereUniqueInput = Prisma.AtLeast<
@@ -441,8 +441,8 @@ export type ProjectWhereUniqueInput = Prisma.AtLeast<
     keywords?: Prisma.StringNullableListFilter<"Project">;
     createdAt?: Prisma.DateTimeFilter<"Project"> | Date | string;
     updatedAt?: Prisma.DateTimeFilter<"Project"> | Date | string;
-    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
     category?: Prisma.XOR<Prisma.CategoryScalarRelationFilter, Prisma.CategoryWhereInput>;
+    user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
   },
   "id" | "userId_slug"
 >;
@@ -543,8 +543,8 @@ export type ProjectCreateInput = {
   keywords?: Prisma.ProjectCreatekeywordsInput | string[];
   createdAt?: Date | string;
   updatedAt?: Date | string;
-  user: Prisma.UserCreateNestedOneWithoutProjectsInput;
   category: Prisma.CategoryCreateNestedOneWithoutProjectsInput;
+  user: Prisma.UserCreateNestedOneWithoutProjectsInput;
 };
 
 export type ProjectUncheckedCreateInput = {
@@ -603,8 +603,8 @@ export type ProjectUpdateInput = {
   keywords?: Prisma.ProjectUpdatekeywordsInput | string[];
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string;
-  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput;
   category?: Prisma.CategoryUpdateOneRequiredWithoutProjectsNestedInput;
+  user?: Prisma.UserUpdateOneRequiredWithoutProjectsNestedInput;
 };
 
 export type ProjectUncheckedUpdateInput = {
@@ -1539,8 +1539,8 @@ export type ProjectSelect<
     keywords?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["project"]
 >;
@@ -1576,8 +1576,8 @@ export type ProjectSelectCreateManyAndReturn<
     keywords?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["project"]
 >;
@@ -1613,8 +1613,8 @@ export type ProjectSelectUpdateManyAndReturn<
     keywords?: boolean;
     createdAt?: boolean;
     updatedAt?: boolean;
-    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+    user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   },
   ExtArgs["result"]["project"]
 >;
@@ -1684,20 +1684,20 @@ export type ProjectOmit<
 export type ProjectInclude<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type ProjectIncludeCreateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 export type ProjectIncludeUpdateManyAndReturn<
   ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs,
 > = {
-  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
   category?: boolean | Prisma.CategoryDefaultArgs<ExtArgs>;
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
 };
 
 export type $ProjectPayload<
@@ -1705,8 +1705,8 @@ export type $ProjectPayload<
 > = {
   name: "Project";
   objects: {
-    user: Prisma.$UserPayload<ExtArgs>;
     category: Prisma.$CategoryPayload<ExtArgs>;
+    user: Prisma.$UserPayload<ExtArgs>;
   };
   scalars: runtime.Types.Extensions.GetPayloadResult<
     {
@@ -2252,11 +2252,11 @@ export interface Prisma__ProjectClient<
   GlobalOmitOptions = {},
 > extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise";
-  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__UserClient<
+  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__CategoryClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$UserPayload<ExtArgs>,
+        Prisma.$CategoryPayload<ExtArgs>,
         T,
         "findUniqueOrThrow",
         GlobalOmitOptions
@@ -2266,11 +2266,11 @@ export interface Prisma__ProjectClient<
     ExtArgs,
     GlobalOmitOptions
   >;
-  category<T extends Prisma.CategoryDefaultArgs<ExtArgs> = {}>(
-    args?: Prisma.Subset<T, Prisma.CategoryDefaultArgs<ExtArgs>>,
-  ): Prisma.Prisma__CategoryClient<
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(
+    args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>,
+  ): Prisma.Prisma__UserClient<
     | runtime.Types.Result.GetResult<
-        Prisma.$CategoryPayload<ExtArgs>,
+        Prisma.$UserPayload<ExtArgs>,
         T,
         "findUniqueOrThrow",
         GlobalOmitOptions

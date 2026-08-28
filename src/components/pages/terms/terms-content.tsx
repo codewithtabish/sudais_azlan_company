@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { ReactNode } from "react";
-
 import { motion, useInView, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowLeft } from "lucide-react";
 import Link from "next/link";
@@ -33,7 +32,9 @@ function Reveal({
   delay?: number;
 }) {
   const prefersReducedMotion = useReducedMotion();
+
   const ref = useRef<HTMLDivElement>(null);
+
   const isInView = useInView(ref, {
     once: true,
     margin: "-60px",
@@ -99,9 +100,20 @@ export default function TermsPageContent() {
 
   const [activeId, setActiveId] = useState<string>(sections[0].id);
 
-  const [currentYear] = useState(() => new Date().getFullYear());
-
   const contentRef = useRef<HTMLElement>(null);
+
+  /*
+   * IMPORTANT:
+   * Do not use new Date() inside this Client Component.
+   *
+   * Next.js 16 can evaluate Client Components during prerendering.
+   * Using new Date() here causes:
+   *
+   * "Next.js encountered the unstable value new Date() in a Client Component."
+   *
+   * Keep the displayed legal-update year static.
+   */
+  const currentYear = 2026;
 
   useEffect(() => {
     const observers: IntersectionObserver[] = [];
@@ -221,7 +233,7 @@ export default function TermsPageContent() {
         </Reveal>
       </header>
 
-      <div className="grid gap-12 pb-28 lg:grid-cols-12 lg:gap-16 md:pb-36">
+      <div className="grid gap-12 pb-28 md:pb-36 lg:grid-cols-12 lg:gap-16">
         <aside className="hidden lg:col-span-3 lg:block">
           <nav aria-label="Table of contents" className="sticky top-28 space-y-1">
             <p className="mb-4 text-[11px] font-medium uppercase tracking-[0.2em] text-muted-foreground">
@@ -282,7 +294,6 @@ export default function TermsPageContent() {
                   className="inline-flex items-center gap-1.5 rounded-full border border-border/60 bg-background/50 px-3 py-1.5 text-xs text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground"
                 >
                   <span className="tabular-nums text-muted-foreground/70">{section.number}</span>
-
                   {section.title}
                 </button>
               ))}

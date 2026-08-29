@@ -15,8 +15,14 @@ type TocItem = {
   level: number;
 };
 
+/* =========================================================
+   HELPERS
+   ========================================================= */
+
 const renderHTML = (html?: string | null) => {
-  if (!html || html.trim() === "") return undefined;
+  if (!html || html.trim() === "") {
+    return undefined;
+  }
 
   return {
     __html: html,
@@ -44,7 +50,9 @@ const ImageBlock: React.FC<{
   file?: any;
   caption?: string;
 }> = ({ file, caption }) => {
-  if (!file?.url) return null;
+  if (!file?.url) {
+    return null;
+  }
 
   return (
     <figure className="my-10 flex flex-col items-center">
@@ -78,7 +86,9 @@ const CodeBlock: React.FC<{
 }> = ({ code, language = "javascript", title = "Code" }) => {
   const [copied, setCopied] = useState(false);
 
-  if (!code?.trim()) return null;
+  if (!code?.trim()) {
+    return null;
+  }
 
   const normalizedLanguage = language.toLowerCase();
 
@@ -114,7 +124,10 @@ const CodeBlock: React.FC<{
     try {
       await navigator.clipboard.writeText(code);
       setCopied(true);
-      window.setTimeout(() => setCopied(false), 1800);
+
+      window.setTimeout(() => {
+        setCopied(false);
+      }, 1800);
     } catch (error) {
       console.error("Failed to copy code:", error);
     }
@@ -137,6 +150,7 @@ const CodeBlock: React.FC<{
 
           <div className="flex min-w-0 items-center gap-2">
             <span className="truncate text-sm font-medium text-foreground">{title}</span>
+
             <span className="hidden rounded-md border border-border bg-muted px-2 py-0.5 font-mono text-[11px] font-medium text-muted-foreground sm:inline-flex">
               {languageLabel}
             </span>
@@ -166,6 +180,7 @@ const CodeBlock: React.FC<{
                   strokeLinejoin="round"
                 />
               </svg>
+
               <span>Copied</span>
             </>
           ) : (
@@ -180,6 +195,7 @@ const CodeBlock: React.FC<{
                   stroke="currentColor"
                   strokeWidth="1.8"
                 />
+
                 <path
                   d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"
                   stroke="currentColor"
@@ -187,6 +203,7 @@ const CodeBlock: React.FC<{
                   strokeLinecap="round"
                 />
               </svg>
+
               <span>Copy</span>
             </>
           )}
@@ -203,18 +220,106 @@ const CodeBlock: React.FC<{
 };
 
 /* =========================================================
+   HEADING RENDERER
+   IMPORTANT:
+   Do NOT use:
+   const Tag = `h${level}` as React.ElementType;
+   <Tag>{text}</Tag>
+
+   This avoids the React/TypeScript children: never issue.
+   ========================================================= */
+
+function renderHeading(level: number, text: string, id: string, className: string, key: React.Key) {
+  switch (level) {
+    case 1:
+      return (
+        <h1 key={key} id={id} className={className}>
+          {text}
+        </h1>
+      );
+
+    case 2:
+      return (
+        <h2 key={key} id={id} className={className}>
+          {text}
+        </h2>
+      );
+
+    case 3:
+      return (
+        <h3 key={key} id={id} className={className}>
+          {text}
+        </h3>
+      );
+
+    case 4:
+      return (
+        <h4 key={key} id={id} className={className}>
+          {text}
+        </h4>
+      );
+
+    case 5:
+      return (
+        <h5 key={key} id={id} className={className}>
+          {text}
+        </h5>
+      );
+
+    case 6:
+    default:
+      return (
+        <h6 key={key} id={id} className={className}>
+          {text}
+        </h6>
+      );
+  }
+}
+
+/* =========================================================
+   LIST RENDERER
+   IMPORTANT:
+   Avoid dynamic <ListTag> for the same TypeScript reason.
+   ========================================================= */
+
+function renderList(items: any[], ordered: boolean, listClass: string, key: React.Key) {
+  const listItems = items.map((item: any, itemIndex: number) => {
+    const itemContent = typeof item === "string" ? item : item?.content || item?.text || "";
+
+    return <li key={itemIndex} dangerouslySetInnerHTML={renderHTML(itemContent)} />;
+  });
+
+  if (ordered) {
+    return (
+      <ol key={key} className={listClass}>
+        {listItems}
+      </ol>
+    );
+  }
+
+  return (
+    <ul key={key} className={listClass}>
+      {listItems}
+    </ul>
+  );
+}
+
+/* =========================================================
    PROJECT PREVIEW CONTENT
    ========================================================= */
 
 export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
   const [openToggles, setOpenToggles] = useState<Record<string, boolean>>({});
+
   const [isTableOfContentsOpen, setIsTableOfContentsOpen] = useState(false);
+
   const [activeSection, setActiveSection] = useState("");
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const blocks = Array.isArray(content?.blocks) ? content.blocks : [];
 
   /* =========================================================
-     GENERATE TOC FROM HEADER BLOCKS
+     GENERATE TOC
      ========================================================= */
 
   const validTableOfContents = useMemo<TocItem[]>(() => {
@@ -223,6 +328,7 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
     return blocks
       .filter((block: any) => {
         const type = block?.type?.toLowerCase();
+
         return (
           type === "header" &&
           typeof block?.data?.text === "string" &&
@@ -231,7 +337,9 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
       })
       .map((block: any) => {
         const title = block.data.text.trim();
+
         const level = Math.min(Math.max(Number(block.data.level) || 2, 1), 6);
+
         const baseId = slugifyHeader(title) || `section-${usedIds.size + 1}`;
 
         let id = baseId;
@@ -244,7 +352,11 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
 
         usedIds.add(id);
 
-        return { id, title, level };
+        return {
+          id,
+          title,
+          level,
+        };
       });
   }, [blocks]);
 
@@ -253,10 +365,14 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
      ========================================================= */
 
   useEffect(() => {
-    if (typeof document === "undefined") return;
+    if (typeof document === "undefined") {
+      return;
+    }
 
     const html = document.documentElement;
+
     const previousScrollBehavior = html.style.scrollBehavior;
+
     html.style.scrollBehavior = "smooth";
 
     return () => {
@@ -266,27 +382,31 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
 
   /* =========================================================
      ACTIVE SECTION OBSERVER
-     (Fixed: no synchronous setState when TOC is empty)
      ========================================================= */
 
   useEffect(() => {
-    // Just bail out — do NOT call setState here
-    if (!validTableOfContents.length) return;
+    if (!validTableOfContents.length) {
+      return;
+    }
 
     const headingElements = validTableOfContents
       .map((item) => document.getElementById(item.id))
       .filter((element): element is HTMLElement => Boolean(element));
 
-    if (!headingElements.length) return;
+    if (!headingElements.length) {
+      return;
+    }
 
     let ticking = false;
 
     const updateActiveSection = () => {
       const offset = 140;
+
       let currentSection = headingElements[0]?.id || "";
 
       for (const heading of headingElements) {
         const rect = heading.getBoundingClientRect();
+
         if (rect.top <= offset) {
           currentSection = heading.id;
         } else {
@@ -294,25 +414,32 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
         }
       }
 
-      setActiveSection((prev) => (prev === currentSection ? prev : currentSection));
+      setActiveSection((previous) => (previous === currentSection ? previous : currentSection));
+
       ticking = false;
     };
 
     const handleScroll = () => {
-      if (ticking) return;
+      if (ticking) {
+        return;
+      }
+
       ticking = true;
+
       window.requestAnimationFrame(updateActiveSection);
     };
 
-    // Initial calculation after paint
     const rafId = window.requestAnimationFrame(updateActiveSection);
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+
     window.addEventListener("resize", handleScroll);
 
     return () => {
       window.cancelAnimationFrame(rafId);
+
       window.removeEventListener("scroll", handleScroll);
+
       window.removeEventListener("resize", handleScroll);
     };
   }, [validTableOfContents]);
@@ -325,7 +452,10 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
     event.preventDefault();
 
     const target = document.getElementById(id);
-    if (!target) return;
+
+    if (!target) {
+      return;
+    }
 
     setActiveSection(id);
     setIsTableOfContentsOpen(false);
@@ -362,17 +492,24 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
   }
 
   /* =========================================================
-     STYLES
+     ALERT STYLES
      ========================================================= */
 
   const alertClasses: Record<string, string> = {
     primary: "border-primary/30 bg-primary/10 text-foreground",
+
     secondary: "border-border bg-muted text-foreground",
+
     info: "border-primary/30 bg-primary/10 text-foreground",
+
     success: "border-primary/30 bg-primary/10 text-foreground",
+
     warning: "border-border bg-muted text-foreground",
+
     danger: "border-destructive/30 bg-destructive/10 text-foreground",
+
     light: "border-border bg-background text-foreground",
+
     dark: "border-border bg-foreground text-background",
   };
 
@@ -382,8 +519,11 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
     right: "text-right",
   };
 
-  // When TOC is empty we simply treat activeSection as ""
   const currentActiveSection = validTableOfContents.length ? activeSection : "";
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
 
   return (
     <div className="prose max-w-none dark:prose-invert">
@@ -522,10 +662,12 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
 
         switch (type) {
           /* ===================================================
-             TOGGLE
-             =================================================== */
+               TOGGLE
+               =================================================== */
+
           case "toggle": {
             const toggleId = block.id || `toggle-${index}`;
+
             const isOpen = openToggles[toggleId] ?? block.data?.status === "open";
 
             if (!block.data?.text && !block.data?.itemsContent) {
@@ -543,6 +685,7 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                   className="flex w-full items-center justify-between gap-4 bg-muted/40 px-4 py-3 text-left font-semibold text-foreground transition-colors hover:bg-muted/60"
                 >
                   <span>{block.data?.text}</span>
+
                   <span
                     className={[
                       "shrink-0 transition-transform duration-200",
@@ -565,18 +708,25 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             ALERT
-             =================================================== */
+               ALERT
+               =================================================== */
+
           case "alert": {
-            if (!block.data) return null;
+            if (!block.data) {
+              return null;
+            }
 
             const alertMessage = block.data.message?.trim();
-            if (!alertMessage) return null;
+
+            if (!alertMessage) {
+              return null;
+            }
 
             const alertTitle =
               block.data.title === "Be Attentivte" ? "Be Attentive" : block.data.title;
 
             const alertType = block.data.type || "warning";
+
             const alertAlign = block.data.align || "left";
 
             return (
@@ -589,20 +739,28 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                 ].join(" ")}
               >
                 {alertTitle && <strong className="mb-1 block font-semibold">{alertTitle}</strong>}
+
                 <span dangerouslySetInnerHTML={renderHTML(alertMessage)} />
               </div>
             );
           }
 
           /* ===================================================
-             WARNING
-             =================================================== */
+               WARNING
+               =================================================== */
+
           case "warning": {
-            if (!block.data) return null;
+            if (!block.data) {
+              return null;
+            }
 
             const alertTitle = block.data.title?.trim() || "Warning";
+
             const alertMessage = block.data.message?.trim();
-            if (!alertMessage) return null;
+
+            if (!alertMessage) {
+              return null;
+            }
 
             return (
               <div
@@ -610,19 +768,24 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                 className="not-prose mb-5 rounded-xl border border-border bg-muted p-4 text-foreground"
               >
                 <strong className="mb-1 block font-semibold">{alertTitle}</strong>
+
                 <span>{alertMessage}</span>
               </div>
             );
           }
 
           /* ===================================================
-             PARAGRAPH
-             =================================================== */
+               PARAGRAPH
+               =================================================== */
+
           case "paragraph":
           case "aitext":
           case "text": {
             const text = block.data?.text?.trim();
-            if (!text) return null;
+
+            if (!text) {
+              return null;
+            }
 
             return (
               <p
@@ -634,12 +797,16 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             LINK TOOL
-             =================================================== */
+               LINK TOOL
+               =================================================== */
+
           case "linktool": {
             const link = block.data?.link;
             const meta = block.data?.meta;
-            if (!link) return null;
+
+            if (!link) {
+              return null;
+            }
 
             return (
               <div
@@ -679,12 +846,17 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             ATTACHMENT
-             =================================================== */
+               ATTACHMENT
+               =================================================== */
+
           case "attaches": {
             const file = block.data?.file;
+
             const title = block.data?.title || file?.name || "Download";
-            if (!file?.url) return null;
+
+            if (!file?.url) {
+              return null;
+            }
 
             return (
               <div key={index} className="not-prose mb-5">
@@ -700,14 +872,16 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             IMAGE
-             =================================================== */
+               IMAGE
+               =================================================== */
+
           case "image":
             return <ImageBlock key={index} file={block.data?.file} caption={block.data?.caption} />;
 
           /* ===================================================
-             CODE
-             =================================================== */
+               CODE
+               =================================================== */
+
           case "code": {
             return (
               <CodeBlock
@@ -720,19 +894,30 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             HEADER
-             =================================================== */
+               HEADER
+               =================================================== */
+
           case "header": {
             const text = block.data?.text?.trim();
-            if (!text) return null;
+
+            if (!text) {
+              return null;
+            }
 
             const level = Math.min(Math.max(Number(block.data?.level) || 2, 1), 6);
 
-            // Generate the exact same ID used by the TOC
+            /*
+             * Generate the exact same ID used
+             * by the TOC.
+             */
+
             const previousHeaders = blocks
               .slice(0, index)
               .filter(
-                (item: any) => item?.type?.toLowerCase() === "header" && item?.data?.text?.trim(),
+                (item: any) =>
+                  item?.type?.toLowerCase() === "header" &&
+                  typeof item?.data?.text === "string" &&
+                  item.data.text.trim(),
               );
 
             const baseId = slugifyHeader(text) || `section-${previousHeaders.length + 1}`;
@@ -742,6 +927,7 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
 
             for (const previousHeader of previousHeaders) {
               const previousText = previousHeader.data.text.trim();
+
               if (slugifyHeader(previousText) === baseId) {
                 duplicateCount += 1;
               }
@@ -760,46 +946,50 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                     ? "scroll-mt-24 mb-3 mt-8 text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
                     : "scroll-mt-24 mb-3 mt-7 text-xl font-semibold tracking-tight text-foreground sm:text-2xl";
 
-            const Tag = `h${level}` as keyof React.JSX.IntrinsicElements;
+            /*
+             * IMPORTANT:
+             *
+             * Do NOT use:
+             *
+             * const Tag = `h${level}` as React.ElementType;
+             * <Tag>{text}</Tag>
+             *
+             * With newer React typings this can produce:
+             *
+             * "children prop expects type never"
+             *
+             * Instead we use an explicit switch.
+             */
 
-            return (
-              <Tag key={index} id={id} className={classes}>
-                {text}
-              </Tag>
-            );
+            return renderHeading(level, text, id, classes, index);
           }
 
           /* ===================================================
-             LIST
-             =================================================== */
+               LIST
+               =================================================== */
+
           case "list": {
-            if (!block.data?.items?.length) return null;
+            if (!Array.isArray(block.data?.items) || !block.data.items.length) {
+              return null;
+            }
 
-            const ListTag = block.data.style === "ordered" ? "ol" : "ul";
-            const listClass =
-              block.data.style === "ordered"
-                ? "mb-6 list-inside list-decimal space-y-2 text-lg leading-8"
-                : "mb-6 list-inside list-disc space-y-2 text-lg leading-8";
+            const ordered = block.data.style === "ordered";
 
-            return (
-              <ListTag key={index} className={listClass}>
-                {block.data.items.map((item: any, itemIndex: number) => (
-                  <li
-                    key={itemIndex}
-                    dangerouslySetInnerHTML={renderHTML(
-                      typeof item === "string" ? item : item?.content || item?.text || "",
-                    )}
-                  />
-                ))}
-              </ListTag>
-            );
+            const listClass = ordered
+              ? "mb-6 list-inside list-decimal space-y-2 text-lg leading-8"
+              : "mb-6 list-inside list-disc space-y-2 text-lg leading-8";
+
+            return renderList(block.data.items, ordered, listClass, index);
           }
 
           /* ===================================================
-             CHECKLIST
-             =================================================== */
+               CHECKLIST
+               =================================================== */
+
           case "checklist": {
-            if (!block.data?.items?.length) return null;
+            if (!block.data?.items?.length) {
+              return null;
+            }
 
             return (
               <ul key={index} className="not-prose mb-6 space-y-3">
@@ -811,6 +1001,7 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                       readOnly
                       className="h-4 w-4 shrink-0 accent-primary"
                     />
+
                     <span dangerouslySetInnerHTML={renderHTML(item.text || "")} />
                   </li>
                 ))}
@@ -819,10 +1010,12 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             DELIMITER
-             =================================================== */
+               DELIMITER
+               =================================================== */
+
           case "delimiter": {
             const style = block.data?.style || "star";
+
             const delimiterStyles: Record<string, string> = {
               star: "★ ★ ★ ★ ★",
               dash: "— — — — —",
@@ -840,10 +1033,13 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             RAW HTML
-             =================================================== */
+               RAW HTML
+               =================================================== */
+
           case "raw": {
-            if (!block.data?.html) return null;
+            if (!block.data?.html) {
+              return null;
+            }
 
             return (
               <div
@@ -855,10 +1051,13 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             QUOTE
-             =================================================== */
+               QUOTE
+               =================================================== */
+
           case "quote": {
-            if (!block.data?.text) return null;
+            if (!block.data?.text) {
+              return null;
+            }
 
             return (
               <blockquote
@@ -866,6 +1065,7 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
                 className="my-8 border-l-4 border-primary bg-muted/30 py-4 pl-5 pr-4 text-lg italic leading-8 text-muted-foreground"
               >
                 {block.data.text}
+
                 {block.data.caption && (
                   <footer className="mt-3 text-sm not-italic text-foreground/70">
                     — {block.data.caption}
@@ -876,10 +1076,12 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             TABLE
-             =================================================== */
+               TABLE
+               =================================================== */
+
           case "table": {
             const tableContent = block.data?.content;
+
             if (!Array.isArray(tableContent) || !tableContent.length) {
               return null;
             }
@@ -912,8 +1114,9 @@ export const ProjectPreviewContent: React.FC<Props> = ({ content }) => {
           }
 
           /* ===================================================
-             UNKNOWN
-             =================================================== */
+               UNKNOWN
+               =================================================== */
+
           default:
             return null;
         }

@@ -14,3 +14,11 @@ export const UserRole = {
 } as const;
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole];
+
+export const NewsletterStatus = {
+  PENDING: "PENDING",
+  SUBSCRIBED: "SUBSCRIBED",
+  UNSUBSCRIBED: "UNSUBSCRIBED",
+} as const;
+
+export type NewsletterStatus = (typeof NewsletterStatus)[keyof typeof NewsletterStatus];

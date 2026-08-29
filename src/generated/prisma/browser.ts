@@ -31,3 +31,8 @@ export type Category = Prisma.CategoryModel;
  *
  */
 export type Project = Prisma.ProjectModel;
+/**
+ * Model NewsletterSubscriber
+ *
+ */
+export type NewsletterSubscriber = Prisma.NewsletterSubscriberModel;

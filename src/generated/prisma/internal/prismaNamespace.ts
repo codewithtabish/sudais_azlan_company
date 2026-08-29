@@ -393,6 +393,7 @@ export const ModelName = {
   User: "User",
   Category: "Category",
   Project: "Project",
+  NewsletterSubscriber: "NewsletterSubscriber",
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -412,7 +413,7 @@ export type TypeMap<
     omit: GlobalOmitOptions;
   };
   meta: {
-    modelProps: "user" | "category" | "project";
+    modelProps: "user" | "category" | "project" | "newsletterSubscriber";
     txIsolationLevel: TransactionIsolationLevel;
   };
   model: {
@@ -638,6 +639,82 @@ export type TypeMap<
         };
       };
     };
+    NewsletterSubscriber: {
+      payload: Prisma.$NewsletterSubscriberPayload<ExtArgs>;
+      fields: Prisma.NewsletterSubscriberFieldRefs;
+      operations: {
+        findUnique: {
+          args: Prisma.NewsletterSubscriberFindUniqueArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null;
+        };
+        findUniqueOrThrow: {
+          args: Prisma.NewsletterSubscriberFindUniqueOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        findFirst: {
+          args: Prisma.NewsletterSubscriberFindFirstArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload> | null;
+        };
+        findFirstOrThrow: {
+          args: Prisma.NewsletterSubscriberFindFirstOrThrowArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        findMany: {
+          args: Prisma.NewsletterSubscriberFindManyArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[];
+        };
+        create: {
+          args: Prisma.NewsletterSubscriberCreateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        createMany: {
+          args: Prisma.NewsletterSubscriberCreateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        createManyAndReturn: {
+          args: Prisma.NewsletterSubscriberCreateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[];
+        };
+        delete: {
+          args: Prisma.NewsletterSubscriberDeleteArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        update: {
+          args: Prisma.NewsletterSubscriberUpdateArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        deleteMany: {
+          args: Prisma.NewsletterSubscriberDeleteManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateMany: {
+          args: Prisma.NewsletterSubscriberUpdateManyArgs<ExtArgs>;
+          result: BatchPayload;
+        };
+        updateManyAndReturn: {
+          args: Prisma.NewsletterSubscriberUpdateManyAndReturnArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>[];
+        };
+        upsert: {
+          args: Prisma.NewsletterSubscriberUpsertArgs<ExtArgs>;
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$NewsletterSubscriberPayload>;
+        };
+        aggregate: {
+          args: Prisma.NewsletterSubscriberAggregateArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.AggregateNewsletterSubscriber>;
+        };
+        groupBy: {
+          args: Prisma.NewsletterSubscriberGroupByArgs<ExtArgs>;
+          result: runtime.Types.Utils.Optional<Prisma.NewsletterSubscriberGroupByOutputType>[];
+        };
+        count: {
+          args: Prisma.NewsletterSubscriberCountArgs<ExtArgs>;
+          result:
+            | runtime.Types.Utils.Optional<Prisma.NewsletterSubscriberCountAggregateOutputType>
+            | number;
+        };
+      };
+    };
   };
 } & {
   other: {
@@ -734,6 +811,19 @@ export const ProjectScalarFieldEnum = {
 
 export type ProjectScalarFieldEnum =
   (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum];
+
+export const NewsletterSubscriberScalarFieldEnum = {
+  id: "id",
+  email: "email",
+  status: "status",
+  subscribedAt: "subscribedAt",
+  unsubscribedAt: "unsubscribedAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt",
+} as const;
+
+export type NewsletterSubscriberScalarFieldEnum =
+  (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",
@@ -833,6 +923,22 @@ export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, "In
  * Reference to a field of type 'Int[]'
  */
 export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, "Int[]">;
+
+/**
+ * Reference to a field of type 'NewsletterStatus'
+ */
+export type EnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  "NewsletterStatus"
+>;
+
+/**
+ * Reference to a field of type 'NewsletterStatus[]'
+ */
+export type ListEnumNewsletterStatusFieldRefInput<$PrismaModel> = FieldRefInputType<
+  $PrismaModel,
+  "NewsletterStatus[]"
+>;
 
 /**
  * Reference to a field of type 'Float'
@@ -1004,6 +1110,7 @@ export type GlobalOmitConfig = {
   user?: Prisma.UserOmit;
   category?: Prisma.CategoryOmit;
   project?: Prisma.ProjectOmit;
+  newsletterSubscriber?: Prisma.NewsletterSubscriberOmit;
 };
 
 /* Types for Logging */

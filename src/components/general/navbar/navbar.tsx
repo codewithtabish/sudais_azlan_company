@@ -13,7 +13,7 @@ import { LayoutDashboard, MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { CVStackedLogo } from "../logos/app-logo";
-import { ModeToggle } from "../themes/mode-toogle";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navigationData = [
   { title: "Projects", href: "/projects" },
@@ -111,8 +111,7 @@ export default function Navbar() {
           </div>
 
           {/* Theme Toggle */}
-          <ModeToggle />
-
+          <AnimatedThemeToggler />
           {/* Mobile Menu */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild className="md:hidden">

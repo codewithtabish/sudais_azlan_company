@@ -51,6 +51,7 @@ export const ModelName = {
   User: "User",
   Category: "Category",
   Project: "Project",
+  NewsletterSubscriber: "NewsletterSubscriber",
 } as const;
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName];
@@ -126,6 +127,19 @@ export const ProjectScalarFieldEnum = {
 
 export type ProjectScalarFieldEnum =
   (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum];
+
+export const NewsletterSubscriberScalarFieldEnum = {
+  id: "id",
+  email: "email",
+  status: "status",
+  subscribedAt: "subscribedAt",
+  unsubscribedAt: "unsubscribedAt",
+  createdAt: "createdAt",
+  updatedAt: "updatedAt",
+} as const;
+
+export type NewsletterSubscriberScalarFieldEnum =
+  (typeof NewsletterSubscriberScalarFieldEnum)[keyof typeof NewsletterSubscriberScalarFieldEnum];
 
 export const SortOrder = {
   asc: "asc",

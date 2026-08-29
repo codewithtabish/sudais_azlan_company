@@ -5,7 +5,7 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { SOCIAL_LINKS } from "../links/social-links";
 import { CVStackedLogo } from "../logos/app-logo";
-import { ModeToggle } from "../themes/mode-toogle";
+import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 /* ------------------------------------------------------------------ */
 /*  Copyright                                                         */
@@ -212,7 +212,7 @@ export default function AtativeFooter() {
                   {link.label}
                 </FooterLink>
               ))}
-              <ModeToggle />
+              <AnimatedThemeToggler />
             </nav>
           </div>
         </div>

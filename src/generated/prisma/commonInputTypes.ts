@@ -251,6 +251,24 @@ export type IntWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedIntFilter<$PrismaModel>;
 };
 
+export type EnumNewsletterStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.NewsletterStatus | Prisma.EnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  in?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel> | $Enums.NewsletterStatus;
+};
+
+export type EnumNewsletterStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NewsletterStatus | Prisma.EnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  in?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  not?:
+    Prisma.NestedEnumNewsletterStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel>;
+};
+
 export type NestedStringFilter<$PrismaModel = never> = {
   equals?: string | Prisma.StringFieldRefInput<$PrismaModel>;
   in?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>;
@@ -469,4 +487,22 @@ export type NestedFloatFilter<$PrismaModel = never> = {
   gt?: number | Prisma.FloatFieldRefInput<$PrismaModel>;
   gte?: number | Prisma.FloatFieldRefInput<$PrismaModel>;
   not?: Prisma.NestedFloatFilter<$PrismaModel> | number;
+};
+
+export type NestedEnumNewsletterStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.NewsletterStatus | Prisma.EnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  in?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  not?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel> | $Enums.NewsletterStatus;
+};
+
+export type NestedEnumNewsletterStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.NewsletterStatus | Prisma.EnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  in?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  notIn?: $Enums.NewsletterStatus[] | Prisma.ListEnumNewsletterStatusFieldRefInput<$PrismaModel>;
+  not?:
+    Prisma.NestedEnumNewsletterStatusWithAggregatesFilter<$PrismaModel> | $Enums.NewsletterStatus;
+  _count?: Prisma.NestedIntFilter<$PrismaModel>;
+  _min?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel>;
+  _max?: Prisma.NestedEnumNewsletterStatusFilter<$PrismaModel>;
 };

@@ -77,3 +77,32 @@ enum UserRole {
   USER
   ADMIN
 }
+
+
+
+model NewsletterSubscriber {
+  id             String           @id @default(cuid())
+
+  email          String           @unique
+
+  status         NewsletterStatus @default(PENDING)
+
+  subscribedAt   DateTime?
+  unsubscribedAt DateTime?
+
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  @@index([status])
+}
+
+
+// ============================================================
+// NEWSLETTER STATUS
+// ============================================================
+
+enum NewsletterStatus {
+  PENDING
+  SUBSCRIBED
+  UNSUBSCRIBED
+}

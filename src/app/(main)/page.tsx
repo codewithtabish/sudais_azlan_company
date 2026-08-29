@@ -1,13 +1,14 @@
 import Navbar from "@/components/general/navbar/navbar";
-import BannerImageUploader from "@/components/general/upload-compoents/upload-banner";
-import OgImageUploader from "@/components/general/upload-compoents/upload-og";
+import ExitIntentPopup from "@/components/general/newsletter/exit-intent-popup";
+import NewsletterSection from "@/components/general/newsletter/new-letter-section";
+import ProjectsLandingSection from "@/components/pages/landing/projects-landing-section";
 
 const HomePage = () => {
   return (
     <main>
       <Navbar />
-      <BannerImageUploader />
-      <OgImageUploader />
+      <ProjectsLandingSection />
+      <NewsletterSection />
     </main>
   );
 };

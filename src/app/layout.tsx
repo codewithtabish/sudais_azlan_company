@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Toaster } from "sonner";
 import "./globals.css";
 import ScrollToTopBottom from "@/components/general/links/scroll-page-link";
+import ExitIntentPopup from "@/components/general/newsletter/exit-intent-popup";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,6 +42,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <ClerkProvider>
+            <ExitIntentPopup />
             {children}
             <ScrollToTopBottom />
             <Toaster />

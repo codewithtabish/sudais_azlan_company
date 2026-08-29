@@ -1,13 +1,11 @@
 import Navbar from "@/components/general/navbar/navbar";
-import BannerImageUploader from "@/components/general/upload-compoents/upload-banner";
-import OgImageUploader from "@/components/general/upload-compoents/upload-og";
+import ProjectsLandingSection from "@/components/pages/landing/projects-landing-section";
 
 const HomePage = () => {
   return (
     <main>
       <Navbar />
-      <BannerImageUploader />
-      <OgImageUploader />
+      <ProjectsLandingSection />
     </main>
   );
 };

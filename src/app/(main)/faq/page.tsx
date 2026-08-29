@@ -1,13 +1,11 @@
-import { Container } from "@/components/general/layouts/conatiner";
+import { SecondContainer } from "@/components/general/layouts/second-container";
 import FAQPageComponent from "@/components/pages/faq/faq-section";
 
 const FAQMAINPAGE = () => {
   return (
-    <main>
-      <Container>
-        <FAQPageComponent />
-      </Container>
-    </main>
+    <SecondContainer>
+      <FAQPageComponent />
+    </SecondContainer>
   );
 };
 

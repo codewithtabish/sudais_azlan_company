@@ -1,10 +1,15 @@
+import HeroSectionFile from "./hero/hero-section-file";
+import Navbar from "@/components/general/navbar/navbar";
+import NewsletterSection from "@/components/general/newsletter/new-letter-section";
+import { SecondContainer } from "@/components/general/layouts/second-container";
+
 const LandingPage = () => {
   return (
-    <div>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Distinctio atque ratione ipsam
-      repellendus maxime eius magni ex vel ut obcaecati vitae a explicabo, aut reprehenderit dolores
-      accusantium possimus doloribus porro.
-    </div>
+    <SecondContainer>
+      <Navbar />
+      <HeroSectionFile />
+      <NewsletterSection />
+    </SecondContainer>
   );
 };
 

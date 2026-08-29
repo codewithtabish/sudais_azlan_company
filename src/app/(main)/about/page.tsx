@@ -1,12 +1,12 @@
-import { Container } from "@/components/general/layouts/conatiner";
+import { SecondContainer } from "@/components/general/layouts/second-container";
 import AboutUs from "@/components/pages/about/about-page";
 
 const AboutPage = () => {
   return (
     <main>
-      <Container>
+      <SecondContainer>
         <AboutUs />
-      </Container>
+      </SecondContainer>
     </main>
   );
 };

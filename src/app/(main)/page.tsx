@@ -1,16 +1,7 @@
-import Navbar from "@/components/general/navbar/navbar";
-import ExitIntentPopup from "@/components/general/newsletter/exit-intent-popup";
-import NewsletterSection from "@/components/general/newsletter/new-letter-section";
-import ProjectsLandingSection from "@/components/pages/landing/projects-landing-section";
+import LandingPage from "@/components/pages/landing/landing-page";
 
 const HomePage = () => {
-  return (
-    <main>
-      <Navbar />
-      <ProjectsLandingSection />
-      <NewsletterSection />
-    </main>
-  );
+  return <LandingPage />;
 };
 
 export default HomePage;

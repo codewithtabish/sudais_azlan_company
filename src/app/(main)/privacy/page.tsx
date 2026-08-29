@@ -1,4 +1,4 @@
-import { Container } from "@/components/general/layouts/conatiner";
+import { SecondContainer } from "@/components/general/layouts/second-container";
 import PrivacyPolicyContent from "@/components/pages/privacy/privacy-policy-content";
 import type { Metadata } from "next";
 
@@ -19,11 +19,9 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       {/* <Header /> */}
-      <main>
-        <Container>
-          <PrivacyPolicyContent />
-        </Container>
-      </main>
+      <SecondContainer>
+        <PrivacyPolicyContent />
+      </SecondContainer>
     </>
   );
 }

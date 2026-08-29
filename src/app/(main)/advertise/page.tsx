@@ -1,13 +1,11 @@
-import { Container } from "@/components/general/layouts/conatiner";
+import { SecondContainer } from "@/components/general/layouts/second-container";
 import AdvertisePageComponent from "@/components/pages/advertise/advertise-section";
 
 const AdvertisePage = () => {
   return (
-    <main>
-      <Container>
-        <AdvertisePageComponent />
-      </Container>
-    </main>
+    <SecondContainer>
+      <AdvertisePageComponent />
+    </SecondContainer>
   );
 };
 

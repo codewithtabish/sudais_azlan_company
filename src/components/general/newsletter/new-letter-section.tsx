@@ -185,7 +185,7 @@ export default function NewsletterSection() {
               alt="Sudais Azlan"
               fill
               priority
-              className="object-cover object-center"
+              className="object-contain object-center"
               sizes="(max-width: 640px) 256px, (max-width: 768px) 288px, 320px"
             />
           </div>

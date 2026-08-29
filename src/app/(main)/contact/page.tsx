@@ -1,12 +1,12 @@
-import { Container } from "@/components/general/layouts/conatiner";
+import { SecondContainer } from "@/components/general/layouts/second-container";
 import ContactPageComponenet from "@/components/pages/contact/contact-section";
 
 const ContactPage = () => {
   return (
     <main>
-      <Container>
+      <SecondContainer>
         <ContactPageComponenet />
-      </Container>
+      </SecondContainer>
     </main>
   );
 };

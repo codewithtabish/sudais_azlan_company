@@ -7,16 +7,23 @@ import ProjectsLandingSection from "./projects-landing-section";
 import Testimonials from "./testmonial/testmonial-setcion";
 import HeroFallback from "./hero/hero-fallback";
 import LandingPageAbout from "./about/landing-page-about";
+import FeaturedBlogs from "./articles/featured-articles";
 
 const LandingPage = () => {
   return (
     <SecondContainer>
       <Navbar />
 
+      {/* Hero */}
       <Suspense fallback={<HeroFallback />}>
         <HeroSectionFile />
       </Suspense>
+
+      {/* About */}
       <LandingPageAbout />
+
+      {/* Featured Articles */}
+      <FeaturedBlogs />
 
       <ProjectsLandingSection />
       <Testimonials />

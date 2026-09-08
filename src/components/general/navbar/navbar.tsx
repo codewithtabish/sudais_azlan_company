@@ -17,7 +17,7 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const navigationData = [
   { title: "Projects", href: "/projects" },
-  { title: "Blogs", href: "/blogs" },
+  { title: "Articles", href: "https://insider.sudaisazlan.com" }, // ← changed from Blogs to Articles
   { title: "About", href: "/about" },
   { title: "Contact", href: "/contact" },
 ];

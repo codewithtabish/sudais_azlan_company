@@ -47,7 +47,7 @@ const EXPLORE_LINKS = [
   { label: "About", href: "/about" },
   { label: "Projects", href: "/projects" },
   { label: "Services", href: "/services" },
-  { label: "Blog", href: "/blog" },
+  { label: "Articles", href: "https://insider.sudaisazlan.com/", external: true },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
 ];
@@ -194,7 +194,9 @@ export default function AtativeFooter() {
             <nav aria-label="Explore" className="mt-6 space-y-3">
               {EXPLORE_LINKS.map((link) => (
                 <div key={link.href}>
-                  <FooterLink href={link.href}>{link.label}</FooterLink>
+                  <FooterLink href={link.href} external={link.external}>
+                    {link.label}
+                  </FooterLink>
                 </div>
               ))}
             </nav>

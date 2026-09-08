@@ -1,17 +1,24 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import Image from "next/image";
-import { useState } from "react";
-
+import { Suspense, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-
 import { ArrowRightIcon, ExternalLinkIcon, Share2Icon } from "lucide-react";
 
 import GreetingWord from "./greeting-words";
-import IdCard from "./id-card";
 import { Marquee } from "./marquee";
 import { SOCIAL_LINKS } from "@/components/general/links/social-links";
+
+const IdCard = dynamic(() => import("./id-card"), {
+  ssr: false,
+  loading: () => (
+    <div className="flex h-full w-full items-center justify-center">
+      <div className="size-7 animate-spin rounded-full border-2 border-muted-foreground/20 border-t-primary" />
+    </div>
+  ),
+});
 
 const PROFILE_IMAGE_URL = "/images/about.png";
 
@@ -31,9 +38,7 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
     <section className="relative overflow-hidden">
       <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="relative grid min-h-[680px] grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-8">
-          {/* =========================================================
-              LEFT CONTENT
-          ========================================================== */}
+          {/* LEFT CONTENT */}
           <div className="relative z-20 pt-24 pb-8 sm:pt-28 sm:pb-12 lg:col-span-7 lg:pt-24 lg:pb-20">
             <div className="max-w-3xl space-y-6">
               {/* Availability */}
@@ -43,7 +48,6 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
               >
                 <span className="relative inline-flex size-1.5">
                   <span className="absolute -inset-0.5 animate-[ping_1.8s_cubic-bezier(0,0,0.2,1)_infinite] rounded-full bg-primary/40 opacity-75" />
-
                   <span className="relative inline-flex size-1.5 rounded-full bg-primary" />
                 </span>
                 Available for opportunities
@@ -66,11 +70,8 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                 experiences that turn ambitious ideas into useful products people love to use.
               </p>
 
-              {/* =======================================================
-                  CTA
-              ======================================================== */}
+              {/* CTA */}
               <div className="flex flex-wrap items-center gap-2.5 pt-3">
-                {/* View Work */}
                 <Button asChild className="h-11 rounded-full px-5 text-base">
                   <a href="#projects">
                     View my work
@@ -78,7 +79,6 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                   </a>
                 </Button>
 
-                {/* Let's Connect */}
                 <Button
                   asChild
                   variant="outline"
@@ -92,11 +92,8 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                   </a>
                 </Button>
 
-                {/* =====================================================
-                    SOCIAL ICON + POPOVER
-                ====================================================== */}
+                {/* Social */}
                 <div className="relative">
-                  {/* Icon */}
                   <Button
                     type="button"
                     variant="outline"
@@ -114,13 +111,8 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                     />
                   </Button>
 
-                  {/* =================================================
-                      POPOVER
-                      Opens ABOVE the icon
-                  ================================================== */}
                   {socialOpen && (
                     <>
-                      {/* Mobile backdrop */}
                       <button
                         type="button"
                         aria-label="Close social links"
@@ -133,7 +125,6 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                         aria-label="Social links"
                         className="absolute bottom-[calc(100%+12px)] left-1/2 z-50 w-[280px] -translate-x-1/2 overflow-hidden rounded-2xl border bg-popover p-2 text-popover-foreground shadow-2xl shadow-black/10"
                       >
-                        {/* Header */}
                         <div className="px-3 py-2.5">
                           <p className="text-sm font-semibold">Connect with Sudais</p>
 
@@ -142,7 +133,6 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                           </p>
                         </div>
 
-                        {/* Links */}
                         <div className="mt-1 grid gap-1">
                           {SOCIAL_LINKS.map((social) => {
                             const Icon = social.icon;
@@ -157,12 +147,10 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                                 onClick={() => setSocialOpen(false)}
                                 className="group flex min-h-12 items-center gap-3 rounded-xl px-3 py-2.5 outline-none transition-colors hover:bg-muted focus-visible:bg-muted"
                               >
-                                {/* Icon */}
                                 <span className="flex size-9 shrink-0 items-center justify-center rounded-lg border bg-background text-muted-foreground transition-colors group-hover:text-foreground">
                                   <Icon className="size-[18px]" />
                                 </span>
 
-                                {/* Text */}
                                 <span className="min-w-0 flex-1">
                                   <span className="block text-sm font-medium">{social.label}</span>
 
@@ -171,7 +159,6 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                                   </span>
                                 </span>
 
-                                {/* External icon */}
                                 <ExternalLinkIcon className="size-3.5 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                               </a>
                             );
@@ -198,39 +185,35 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
             </div>
           </div>
 
-          {/* =========================================================
-              DESKTOP ID CARD
-          ========================================================== */}
+          {/* DESKTOP ID CARD */}
           <div className="relative hidden min-h-[680px] lg:col-span-5 lg:flex lg:items-center lg:justify-center">
             <div className="relative h-[620px] w-full max-w-[430px] xl:h-[660px] xl:max-w-[460px]">
-              <IdCard frontImage={PROFILE_IMAGE_URL} className="h-full w-full" />
+              <Suspense fallback={null}>
+                <IdCard frontImage={PROFILE_IMAGE_URL} className="h-full w-full" />
+              </Suspense>
             </div>
           </div>
         </div>
       </div>
 
-      {/* =========================================================
-          MOBILE ID CARD
-      ========================================================== */}
+      {/* MOBILE ID CARD */}
       <div className="flex justify-center px-4 pb-4 sm:px-6 lg:hidden">
         <div className="w-full max-w-sm">
-          <IdCard frontImage={PROFILE_IMAGE_URL} className="aspect-4/5 w-full" />
+          <Suspense fallback={null}>
+            <IdCard frontImage={PROFILE_IMAGE_URL} className="aspect-4/5 w-full" />
+          </Suspense>
         </div>
       </div>
 
-      {/* =========================================================
-          TECHNOLOGY MARQUEE
-      ========================================================== */}
+      {/* TECHNOLOGY MARQUEE */}
       {brandLogos.length > 0 && (
         <div className="relative mx-auto mt-14 mb-12 w-full max-w-7xl px-4 sm:mt-16 sm:px-6 lg:mt-20 lg:px-8">
-          {/* Left fade */}
           <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-linear-to-r from-background to-transparent sm:w-24" />
 
-          {/* Right fade */}
           <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-linear-to-l from-background to-transparent sm:w-24" />
 
           <div className="w-full overflow-hidden">
-            <Marquee pauseOnHover duration={25} gap={2}>
+            <Marquee pauseOnHover duration={30} gap={2} repeat={2}>
               {brandLogos.map((logo, logoIndex) => (
                 <div
                   key={`${logo.image}-${logoIndex}`}
@@ -238,9 +221,11 @@ const HeroSection = ({ brandLogos }: HeroSectionProps) => {
                 >
                   <Image
                     src={logo.image}
-                    alt={logo.name || "Technology logo"}
+                    alt={logo.name}
                     width={40}
                     height={40}
+                    loading="lazy"
+                    unoptimized
                     className="size-9 object-contain grayscale transition-all duration-300 hover:grayscale-0 sm:size-10"
                   />
                 </div>

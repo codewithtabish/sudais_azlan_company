@@ -1,10 +1,10 @@
 import { ArrowUpRight } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 import { SOCIAL_LINKS } from "../links/social-links";
-import { CVStackedLogo } from "../logos/app-logo";
 import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 /* ------------------------------------------------------------------ */
@@ -146,12 +146,15 @@ export default function AtativeFooter() {
           {/* -------------------------------------------------------- */}
 
           <div className="max-w-[560px]">
-            <Link
-              href="/"
-              className="flex h-28 shrink-0 items-center"
-              aria-label="Sudais Azlan – Home"
-            >
-              <CVStackedLogo className="h-full w-auto max-w-[220px] sm:max-w-[220px] md:max-w-[260px] lg:max-w-[300px]" />
+            <Link href="/" className="inline-block" aria-label="Sudais Azlan – Home">
+              <Image
+                src="/images/brandlogo/logo.png"
+                alt="Sudais Azlan"
+                width={1840}
+                height={560}
+                className="h-10 sm:h-11 md:h-12 lg:h-14 w-auto object-contain"
+                priority
+              />
             </Link>
 
             <p className="mt-7 max-w-[540px] text-[15px] leading-7 text-muted-foreground">

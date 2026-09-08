@@ -240,7 +240,7 @@ export default function AtativeFooter() {
 
             <p className="mt-2 text-xs leading-5 text-muted-foreground">
               AI engineering, systems design, and digital products. All content and trademarks
-              remain the property of their respective owners where applicable.
+              remain the property of their respective owners where applicable-
             </p>
           </div>
         </div>

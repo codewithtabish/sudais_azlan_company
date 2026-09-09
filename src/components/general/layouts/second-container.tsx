@@ -11,7 +11,6 @@ export function SecondContainer({ children, className, ...props }: ContainerProp
       className={cn(
         // Hidden on mobile/small screens.
         // Visible from md (768px) and above.
-        "hidden md:block",
 
         // Layout
         "relative isolate mx-auto min-h-screen w-full max-w-[1440px]",
